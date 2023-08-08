@@ -8,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,12 +19,20 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -96,30 +105,31 @@ fun GreetingPreview() {
 }
 
 @Composable
-fun UserChat(name: String, modifier: Modifier = Modifier) {
+fun UserChat(name: String, msg: String) {
     Row(
-        modifier = modifier
+        modifier = Modifier
+            .padding(4.dp)
             .clickable(onClick = {})
-            .padding(4.dp),
     ) {
         Image(
             painter = painterResource(R.drawable.image_user),
-            contentDescription = "image user",
-            modifier = modifier
+            contentDescription = null,
+            modifier = Modifier
                 .padding(4.dp)
+                .size(60.dp)
                 .border(2.dp, Color.Blue, CircleShape)
                 .clip(CircleShape)
-                .size(60.dp)
         )
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(4.dp))
         Column(
             modifier = Modifier
+                .padding(4.dp)
                 .fillMaxWidth()
         ) {
-            Text(text = "Guna Dermawan", fontWeight = FontWeight.Bold)
-            Text(text = "How are you today?", modifier = Modifier.offset(x = 8.dp))
+            Text(text = name, fontWeight = FontWeight.Bold)
+            Text(text = msg, modifier = Modifier.offset(x = 16.dp))
             Icon(
-                imageVector = Icons.Filled.CheckCircle,
+                imageVector = Icons.Default.CheckCircle,
                 contentDescription = null,
                 modifier = Modifier.align(Alignment.End)
             )
@@ -131,6 +141,63 @@ fun UserChat(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun UserChatPreview() {
     BasiclayoutsTheme {
-        UserChat(name = "Guna Dermawan")
+        UserChat(name = "Gun", msg = "Android Dev")
+    }
+}
+
+@Composable
+fun SlotBasedLayout() {
+    Button(
+        onClick = { /*TODO*/ },
+        contentPadding = PaddingValues(start = 20.dp, top = 12.dp, end = 20.dp, bottom = 12.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Default.Favorite,
+            contentDescription = null,
+            modifier = Modifier.size(ButtonDefaults.IconSize)
+        )
+        Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
+        Text(text = "Like")
+    }
+}
+
+@Preview
+@Composable
+fun SlotBasedLayoutPreview() {
+    BasiclayoutsTheme {
+        SlotBasedLayout()
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ScaffoldSample() {
+    Scaffold(
+        topBar = {
+            TopAppBar(title = { Text(text = "My Scaffold") })
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { }) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = null)
+            }
+        }
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(it)
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = "Hello Compose!")
+        }
+
+    }
+}
+
+@Preview
+@Composable
+fun ScaffoldSamplePreview() {
+    BasiclayoutsTheme {
+        ScaffoldSample()
     }
 }
